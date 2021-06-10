@@ -1,0 +1,431 @@
+openapi: 3.0.1
+info:
+  title: Thanksgiving
+  version: 1.0.0
+  description: Javascript thanksgiving code for Messages API
+paths:
+  /messages:
+    get:
+      tags:
+        - Messages
+      summary: Get messages
+      description: This will return a list of messages.
+      parameters:
+        - name: sort_by
+          in: query
+          schema:
+            type: string
+            pattern: '[a-z]'
+            default: created_at
+        - name: sort_order
+          in: query
+          schema:
+            type: string
+            minLength: 3
+            maxLength: 4
+            pattern: '[a-z]'
+            enum:
+              - asc
+              - desc
+            default: desc
+        - name: search
+          in: query
+          schema:
+            type: string
+            minLength: 3
+            maxLength: 255
+        - name: ids
+          in: query
+          schema:
+            type: string
+            minLength: 0
+            maxLength: 255
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessagesListResponse'
+        '400':
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+        '404':
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '500':
+          description: ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+    post:
+      tags:
+        - Messages
+      summary: Add message
+      description: This api returns a new message with provided body.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddMessage'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+        '404':
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '500':
+          description: ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+  /messages/count:
+    get:
+      tags:
+        - Messages
+      summary: Get messages count
+      description: This will return count of messages.
+      parameters:
+
+        - name: search
+          in: query
+          schema:
+            type: string
+            minLength: 3
+            maxLength: 255      
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Count'
+        '400':
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+        '404':
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '500':
+          description: ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+  '/messages/{messageId}':
+    get:
+      tags:
+        - Messages
+      summary: describe message
+      description: This will Return message with provided id.
+      parameters:
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            minimum: 1
+            exclusiveMinimum: true
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+        '404':
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '500':
+          description: ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+    put:
+      tags:
+        - Messages
+      summary: Update message
+      description: This api returns updated message with provided id after updating with provided body.
+      parameters:
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            minimum: 1
+            exclusiveMinimum: true
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+        '404':
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '412':
+          description: PRECONDITION FAILED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/412'
+        '500':
+          description: ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+    delete:
+      tags:
+        - Messages
+      summary: Delete message
+      description: This will Return deleted message with provided id.
+      parameters:
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            minimum: 1
+            exclusiveMinimum: true
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+        '404':
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        '412':
+          description: PRECONDITION FAILED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/412'
+        '500':
+          description: ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+components:
+  schemas:
+    '400':
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 400
+            message:
+              type: string
+        meta:
+          $ref: '#/components/schemas/MetaDefinition'
+    '404':
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 404
+            message:
+              type: string
+        meta:
+          $ref: '#/components/schemas/MetaDefinition'
+    '412':
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 412
+            message:
+              type: string
+        meta:
+          $ref: '#/components/schemas/MetaDefinition'
+    '500':
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 500
+            message:
+              type: string
+        meta:
+          $ref: '#/components/schemas/MetaDefinition'
+    MetaDefinition:
+      type: object
+      properties:
+        version:
+          type: number
+        timestamp:
+          type: string
+          format: date-time
+    Count:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            count:
+              type: number
+        meta:
+          $ref: '#/components/schemas/MetaDefinition'
+    AddMessage:
+      type: object
+      properties:
+        to:
+          type: string
+          minimum: 3
+          maximum: 255
+        from:
+          type: string
+          minimum: 3
+          maximum: 255
+        body:
+          type: string
+        colour:
+          type: string
+          example: "#777"
+    MessageResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            message:
+              type: object
+              properties:
+                id:
+                  type: number
+                to:
+                  type: string
+                from:
+                  type: string
+                body:
+                  type: string
+                colour:
+                  type: string
+                  example: "#777"
+                deleted:
+                  type: number
+                created_at:
+                  type: string
+                  format: date-time
+                updated_at:
+                  type: string
+                  format: date-time
+                deleted_at:
+                  type: string
+                  format: date-time
+        meta:
+          $ref: '#/components/schemas/MetaDefinition'
+    MessagesListResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            messages:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  to:
+                    type: string
+                  from:
+                    type: string
+                  body:
+                    type: string
+                  colour:
+                    type: string
+                    example: "#777"
+                  deleted:
+                    type: number
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+                  deleted_at:
+                    type: string
+                    format: date-time
+        meta:
+          $ref: '#/components/schemas/MetaDefinition'
+servers:
+  - url: 'https://yap-dev.yapsody.com/v1/messages'
+    description: ''

@@ -1,0 +1,43 @@
+# docker-compose.yml
+version: "2.4"
+
+volumes:
+  db_data:
+
+services:
+  mysql:
+    build:
+      context: ./db/
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '3306:3306'
+    volumes:
+      - db_data:/var/lib/mysql
+
+  boilerplate:
+    container_name: boilerplate
+    depends_on:
+      mysql:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: prod
+      args:
+        - NPM_TOKEN=faa9531c-0810-48f0-8d2e-90e5a6cc47c3
+    ports:
+      - 8080:8080
+    environment:
+      - ENVIRONMENT=yap-dev
+      - MICROSERVICE_NAME=BOILERPLATE
+      - MICROSERVICE_IP=0.0.0.0
+      - APP_HOST=0.0.0.0
+      - APP_PORT=8080
+      - SWAGGER_PORT=8080
+      - MYSQL_HOST=mysql
+      - MYSQL_USERNAME=user
+      - MYSQL_PASSWORD=secret
+      - MYSQL_DB_NAME=thanksgiving
+    volumes:
+      - .:/app:delegated
