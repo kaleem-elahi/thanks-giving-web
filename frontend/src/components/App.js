@@ -22,9 +22,9 @@ class App extends React.Component {
 }
 
   getMessageList = () => {
-    api.get('https://yap-dev.yapsody.com/v1/thanksgiving/messages',{}).then(data => {
+    api.get('https://67102acba85f4164ef2d418e.mockapi.io/v1/thanksgiving/messages/messages',{}).then(data => {
 
-      const response = data.data.data.messages.map(message => ({
+      const response = data.data.map(message => ({
         id: message.id,
         message: message.body,
         from: message.from,
@@ -46,7 +46,7 @@ class App extends React.Component {
       colour: message.color || '#fff'
     }
 
-    api.post('https://yap-dev.yapsody.com/v1/thanksgiving/messages',body).then(data => {
+    api.post('https://67102acba85f4164ef2d418e.mockapi.io/v1/thanksgiving/messages/messages',body).then(data => {
 
 
       if (data.status !== 400) {
