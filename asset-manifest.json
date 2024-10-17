@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/thanks-giving-web/static/css/main.cfdbcc0e.chunk.css",
+    "main.js": "/thanks-giving-web/static/js/main.c9822052.chunk.js",
+    "main.js.map": "/thanks-giving-web/static/js/main.c9822052.chunk.js.map",
+    "runtime-main.js": "/thanks-giving-web/static/js/runtime-main.31712132.js",
+    "runtime-main.js.map": "/thanks-giving-web/static/js/runtime-main.31712132.js.map",
+    "static/js/2.531a5541.chunk.js": "/thanks-giving-web/static/js/2.531a5541.chunk.js",
+    "static/js/2.531a5541.chunk.js.map": "/thanks-giving-web/static/js/2.531a5541.chunk.js.map",
+    "index.html": "/thanks-giving-web/index.html",
+    "precache-manifest.743041c8da2d5b54e351a7e72d98157a.js": "/thanks-giving-web/precache-manifest.743041c8da2d5b54e351a7e72d98157a.js",
+    "service-worker.js": "/thanks-giving-web/service-worker.js",
+    "static/css/main.cfdbcc0e.chunk.css.map": "/thanks-giving-web/static/css/main.cfdbcc0e.chunk.css.map",
+    "static/js/2.531a5541.chunk.js.LICENSE.txt": "/thanks-giving-web/static/js/2.531a5541.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.31712132.js",
+    "static/js/2.531a5541.chunk.js",
+    "static/css/main.cfdbcc0e.chunk.css",
+    "static/js/main.c9822052.chunk.js"
+  ]
+}
